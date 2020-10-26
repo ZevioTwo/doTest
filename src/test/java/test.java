@@ -1,12 +1,20 @@
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class test {
 
+    //初始化映射关系
+    private final static String[] STRS = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+    private static Map<Integer,String> map = null;
+
+    static {
+        map = new HashMap<Integer, String>();
+        for(int i = 2;i<10;i++){
+            map.put(i,STRS[i-2]);
+        }
+    }
     @Test
     public void test1(){
         String demo1 = test1(new int[]{2,3});
@@ -24,14 +32,7 @@ public class test {
      * @param input
      * @return
      */
-    public static String test1(int[] input){
-        //建立映射
-        String[] strs = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-        Map<Integer,String> map = new HashMap<Integer, String>();
-        for(int i = 2;i<10;i++){
-            map.put(i,strs[i-2]);
-        }
-//        System.out.println(map.toString());
+    private String test1(int[] input){
         String outPut = "";
         //位数校验,过滤0和1
         if(checkParm(input,1)==null){
@@ -52,6 +53,7 @@ public class test {
             return outPut;
         }
         //数组长度大于1
+        Set set = new HashSet();
         for (int i = 0;i<input.length;i++){
             if(i+1==input.length){
                 break;
@@ -60,10 +62,11 @@ public class test {
             char[] b = map.get(input[i+1]).toCharArray();
             for(int j = 0;j<a.length;j++){
                 for (int k = 0;k<b.length;k++){
-                    outPut += a[j]+""+b[k]+""+" ";
+                    set.add(a[j]+""+b[k]+"");
                 }
             }
         }
+        outPut = removal(set);
         return outPut;
     }
 
@@ -72,14 +75,7 @@ public class test {
      * @param input
      * @return
      */
-    public static String test2(int[] input){
-        //建立映射
-        String[] strs = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-        Map<Integer,String> map = new HashMap<Integer, String>();
-        for(int i = 2;i<10;i++){
-            map.put(i,strs[i-2]);
-        }
-//        System.out.println(map.toString());
+    private String test2(int[] input){
         String outPut = "";
         //位数校验,过滤0和1
         if(checkParm(input,2)==null){
@@ -101,6 +97,7 @@ public class test {
             return outPut;
         }
         //数组长度大于1
+        Set set = new HashSet();
         for (int i = 0;i<input.length;i++){
             if(i+1==input.length){
                 break;
@@ -113,14 +110,15 @@ public class test {
             char[] b = strb.toCharArray();
             for(int j = 0;j<a.length;j++){
                 for (int k = 0;k<b.length;k++){
-                    outPut += a[j]+""+b[k]+""+" ";
+                    set.add(a[j]+""+b[k]+"");
                 }
             }
         }
+        outPut = removal(set);
         return outPut;
     }
 
-    public static String getValString(String str,Map<Integer,String> map){
+    private String getValString(String str,Map<Integer,String> map){
         String result = "";
         if((str).length()>1){
             result = map.get(Integer.parseInt(str.substring(0,1)))+map.get(Integer.parseInt(str.substring(1)));
@@ -136,7 +134,7 @@ public class test {
      * @param num 1:test1 2:test2
      * @return
      */
-    public static int[] checkParm(int[] input,int num){
+    private int[] checkParm(int[] input,int num){
         List<Integer> list = new ArrayList<Integer>();
         if(num==1){
             for (int i = 0;i<input.length;i++){
@@ -173,5 +171,18 @@ public class test {
             c[i]=b[i].intValue();
         }
         return c;
+    }
+
+    /**
+     * 去重
+     * @param set
+     * @return
+     */
+    private String removal(Set<String> set){
+        String str = "";
+        for (String s:set){
+            str+=s+" ";
+        }
+        return str;
     }
 }
