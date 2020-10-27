@@ -1,188 +1,30 @@
-import org.junit.jupiter.api.Test;
-
-import java.util.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import com.service.DemoService;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class test {
 
-    //初始化映射关系
-    private final static String[] STRS = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    private ApplicationContext applicationContext;
 
-    private static Map<Integer,String> map = null;
-
-    static {
-        map = new HashMap<Integer, String>();
-        for(int i = 2;i<10;i++){
-            map.put(i,STRS[i-2]);
-        }
+    @Before
+    public void setUp() throws Exception {
+        applicationContext = new FileSystemXmlApplicationContext("classpath:applicationContext.xml");
     }
+
     @Test
     public void test1(){
-        String demo1 = test1(new int[]{2,3});
+        DemoService demoService = (DemoService)applicationContext.getBean("DemoService");
+        String demo1 = demoService.getTest1(new int[]{2,3});
         System.out.println(demo1);
     }
 
     @Test
     public void test2(){
-        String demo2 = test2(new int[]{21,30,99});
+        DemoService demoService = (DemoService)applicationContext.getBean("DemoService");
+        String demo2 = demoService.getTest2(new int[]{21,30,99});
         System.out.println(demo2);
     }
 
-    /**
-     * 支持0-9输入
-     * @param input
-     * @return
-     */
-    private String test1(int[] input){
-        String outPut = "";
-        //位数校验,过滤0和1
-        if(checkParm(input,1)==null){
-            return "此方法只支持0-9";
-        }else {
-            input = checkParm(input,1);
-        }
-        //数组长度为0
-        if(input.length==0){
-            return "";
-        }
-        //数组长度为1
-        if(input.length==1){
-            char[] as = map.get(input[0]).toCharArray();
-            for (char a:as){
-                outPut += a+""+" ";
-            }
-            return outPut;
-        }
-        //数组长度大于1
-        Set set = new HashSet();
-        for (int i = 0;i<input.length;i++){
-            if(i+1==input.length){
-                break;
-            }
-            char[] a = map.get(input[i]).toCharArray();
-            char[] b = map.get(input[i+1]).toCharArray();
-            for(int j = 0;j<a.length;j++){
-                for (int k = 0;k<b.length;k++){
-                    set.add(a[j]+""+b[k]+"");
-                }
-            }
-        }
-        outPut = removal(set);
-        return outPut;
-    }
-
-    /**
-     * 支持0-99输入
-     * @param input
-     * @return
-     */
-    private String test2(int[] input){
-        String outPut = "";
-        //位数校验,过滤0和1
-        if(checkParm(input,2)==null){
-            return "此方法只支持0-99";
-        }else {
-            input = checkParm(input,2);
-        }
-        //数组长度为0
-        if(input.length==0){
-            return "";
-        }
-        //数组长度为1
-        if(input.length==1){
-            String str = getValString(input[0]+"",map);
-            char[] as = str.toCharArray();
-            for (char a:as){
-                outPut += a+""+" ";
-            }
-            return outPut;
-        }
-        //数组长度大于1
-        Set set = new HashSet();
-        for (int i = 0;i<input.length;i++){
-            if(i+1==input.length){
-                break;
-            }
-            String  numa = input[i]+"";
-            String stra = getValString(numa,map);
-            char[] a = stra.toCharArray();
-            String numb = input[i+1]+"";
-            String strb = getValString(numb,map);
-            char[] b = strb.toCharArray();
-            for(int j = 0;j<a.length;j++){
-                for (int k = 0;k<b.length;k++){
-                    set.add(a[j]+""+b[k]+"");
-                }
-            }
-        }
-        outPut = removal(set);
-        return outPut;
-    }
-
-    private String getValString(String str,Map<Integer,String> map){
-        String result = "";
-        if((str).length()>1){
-            result = map.get(Integer.parseInt(str.substring(0,1)))+map.get(Integer.parseInt(str.substring(1)));
-        }else {
-            result = map.get(Integer.parseInt(str));
-        }
-        return result;
-    }
-
-    /**
-     * 数组里的数只允许2位数，过滤0和1,切割0和1
-     * @param input
-     * @param num 1:test1 2:test2
-     * @return
-     */
-    private int[] checkParm(int[] input,int num){
-        List<Integer> list = new ArrayList<Integer>();
-        if(num==1){
-            for (int i = 0;i<input.length;i++){
-                if(String.valueOf(input[i]).length()>1){
-                    return null;
-                }
-                if(input[i]!=0 && input[i]!=1){
-                    list.add(input[i]);
-                }
-            }
-        }else {
-            for (int i = 0;i<input.length;i++){
-                if(String.valueOf(input[i]).length()>2){
-                    return null;
-                }
-                if(input[i]!=0 && input[i]!=1){
-                    String str = String.valueOf(input[i]);
-                    if(str.contains("0")){
-                        str = str.replace("0","");
-                    }
-                    if(str.contains("1")){
-                        str = str.replace("1","");
-                    }
-                    if(!"".equals(str)){
-                        list.add(Integer.valueOf(str));
-                    }
-                }
-            }
-        }
-        Integer []b=new Integer[list.size()];
-        list.toArray(b);
-        int []c=new int[b.length];
-        for(int i=0;i<b.length;i++) {
-            c[i]=b[i].intValue();
-        }
-        return c;
-    }
-
-    /**
-     * 去重
-     * @param set
-     * @return
-     */
-    private String removal(Set<String> set){
-        String str = "";
-        for (String s:set){
-            str+=s+" ";
-        }
-        return str;
-    }
 }
