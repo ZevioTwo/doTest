@@ -13,6 +13,9 @@ public class test {
         applicationContext = new FileSystemXmlApplicationContext("classpath:applicationContext.xml");
     }
 
+    /**
+     * 数字0到9转换为字母
+     */
     @Test
     public void test1(){
         DemoService demoService = (DemoService)applicationContext.getBean("DemoService");
@@ -20,6 +23,9 @@ public class test {
         System.out.println(demo1);
     }
 
+    /**
+     * 数字0到99转换为字母
+     */
     @Test
     public void test2(){
         DemoService demoService = (DemoService)applicationContext.getBean("DemoService");
