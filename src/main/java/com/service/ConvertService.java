@@ -1,18 +1,18 @@
 package com.service;
 
-public interface DemoService {
+public interface ConvertService {
 
     /**
      * 支持0-9输入
      * @param input
      * @return
      */
-    String getTest1(int[] input);
+    String getConvertFir(int[] input);
 
     /**
      * 支持0-99输入
      * @param input
      * @return
      */
-    String getTest2(int[] input);
+    String getConvertSec(int[] input);
 }

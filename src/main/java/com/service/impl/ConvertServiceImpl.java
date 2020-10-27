@@ -1,6 +1,6 @@
 package com.service.impl;
 
-import com.service.DemoService;
+import com.service.ConvertService;
 import com.util.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-@Service("DemoService")
-public class DemoServiceImpl implements DemoService {
+@Service("ConvertService")
+public class ConvertServiceImpl implements ConvertService {
 
     //初始化映射关系
     private final static String[] STRS = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
@@ -24,7 +24,7 @@ public class DemoServiceImpl implements DemoService {
         }
     }
 
-    public String getTest1(int[] input){
+    public String getConvertFir(int[] input){
         String outPut = "";
         //位数校验,过滤0和1
         if(StringUtils.checkParm(input,1)==null){
@@ -62,7 +62,7 @@ public class DemoServiceImpl implements DemoService {
         return outPut;
     }
 
-    public String getTest2(int[] input){
+    public String getConvertSec(int[] input){
         String outPut = "";
         //位数校验,过滤0和1
         if(StringUtils.checkParm(input,2)==null){

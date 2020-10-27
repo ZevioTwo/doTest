@@ -1,7 +1,7 @@
+import com.service.ConvertService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
-import com.service.DemoService;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class test {
@@ -17,9 +17,9 @@ public class test {
      * 数字0到9转换为字母
      */
     @Test
-    public void test1(){
-        DemoService demoService = (DemoService)applicationContext.getBean("DemoService");
-        String demo1 = demoService.getTest1(new int[]{2,3});
+    public void convertFir(){
+        ConvertService demoService = (ConvertService)applicationContext.getBean("ConvertService");
+        String demo1 = demoService.getConvertFir(new int[]{2,3});
         System.out.println(demo1);
     }
 
@@ -27,9 +27,9 @@ public class test {
      * 数字0到99转换为字母
      */
     @Test
-    public void test2(){
-        DemoService demoService = (DemoService)applicationContext.getBean("DemoService");
-        String demo2 = demoService.getTest2(new int[]{21,30,99});
+    public void convertSec(){
+        ConvertService demoService = (ConvertService)applicationContext.getBean("ConvertService");
+        String demo2 = demoService.getConvertSec(new int[]{21,30,99});
         System.out.println(demo2);
     }
 
